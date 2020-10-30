@@ -2,8 +2,6 @@ from py2cytoscape import cyrest
 import os
 
 # Create folders
-results_folder = os.path.join(os.getcwd(), 'results/')
-data_folder = os.path.join(os.getcwd(), 'data/')
 file = os.listdir(os.path.join(os.getcwd(), 'network/'))[0]
 print(file)
 for file in os.listdir(os.path.join(os.getcwd(), 'network/')):
@@ -55,26 +53,25 @@ print('Layout applied successfully')
 cytoscape.vizmap.apply(styles='default')
 
 # Run the first rule (run_clusterONE)
-#print(f'Running clusterONE algorithm and extracting general information about the full {file} SSN.\n')
+print(f'Running clusterONE algorithm and extracting general information about the full {file} SSN.\n')
 os.system('snakemake -s rules/run_clusterONE.rules --cores 1')
-#print('Step complete.\n')
-#print(f'Results are written to {project_results_folder}.\n')
-#print(f'General information about SSN is writen to file general_info.txt\n')
+print('Step complete.\n')
+
 
 # Run the second rule (to get information per cluster)
-#print(f'Extracting information for each defined cluster from the {file} SSN.\n')
+print(f'Extracting information for each defined cluster from the {file} SSN.\n')
 os.system('snakemake -s rules/cluster_info.rules --cores 1')
-#print('Step complete.\n')
+print('Step complete.\n')
 #print(f'Results are written to {project_results_folder}Clusters/\n')
 
 # Run the third rule (to calculate seqeunce motifs)
-#print(f'Running MEME from MEME-Suite to calculate sequence motifs for defined clusters from the {file} SSN.\n')
+print(f'Running MEME from MEME-Suite to calculate sequence motifs for defined clusters from the {file} SSN.\n')
 os.system('snakemake -s rules/sequence_motifs.rules --cores 1')
-#print('Step complete.\n')
+print('Step complete.\n')
 #print(f'Results written to {project_results_folder}meme/\n')
 
 # Run the found rule (search calculated fingerprints against the dataset)
-#print(f'Running MAST from MEME-Suite to search previously calculated sequence motifs against the dataset used to calculate the {file} SSN.\n')
+print(f'Running MAST from MEME-Suite to search previously calculated sequence motifs against the dataset used to calculate the {file} SSN.\n')
 os.system('snakemake -s rules/run_mast.rules --cores 1')
-#print('Step complete.\n')
+print('Step complete.\n')
 #print(f'Results written to {project_results_folder}mast/\n')
