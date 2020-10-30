@@ -1,0 +1,26 @@
+import os
+
+root_dir = os.listdir(os.path.join(os.getcwd(), 'network/'))[0]
+
+rule all:
+    input:
+         os.path.join(os.getcwd(), root_dir, 'results', 'done.txt')
+
+
+rule get_sequences:
+    output:
+          os.path.join(os.getcwd(), root_dir, 'results', 'motifs.txt')
+
+    script:
+          os.path.join(os.getcwd(), 'scripts', 'retrieve_sequences.py')
+
+
+rule run_meme:
+    input:
+          rules.get_sequences.output
+
+    output:
+          os.path.join(os.getcwd(), root_dir, 'results', 'done.txt')
+
+    script:
+          os.path.join(os.getcwd(), 'scripts', 'run_meme.py')

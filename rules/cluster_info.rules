@@ -1,0 +1,40 @@
+import os
+
+file = os.listdir(os.path.join(os.getcwd(), 'network/'))[0]
+
+with open(os.path.join(os.getcwd(), file, 'data', 'swiss_cluster_numbers.txt'), 'r') as f:
+    cluster_list = f.readline().split(', ')
+
+rule all:
+    input:
+          expand(os.path.join(os.getcwd(), file, 'results', 'Clusters', 'Cluster_{Cluster}_info.txt'), Cluster=cluster_list)
+
+
+rule subcluster_files:
+    output:
+           os.path.join(os.getcwd(), file, 'data', 'cluster_list.csv')
+
+    script:
+          os.path.join(os.getcwd(), 'scripts', 'subcluster_files.py')
+
+
+rule create_subclusters:
+    input:
+        rules.subcluster_files.output
+
+    output:
+          os.path.join(os.getcwd(), file, 'data', 'test.txt')
+
+    script:
+          os.path.join(os.getcwd(), 'scripts', 'create_subclusters.py')
+
+
+rule defined_cluster_info:
+    input:
+         rules.create_subclusters.output
+
+    output:
+          expand(os.path.join(os.getcwd(), file, 'results', 'Clusters', 'Cluster_{Cluster}_info.txt'), Cluster= cluster_list)
+
+    script:
+          os.path.join(os.getcwd(), 'scripts', 'cluster_info.py')

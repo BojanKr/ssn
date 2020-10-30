@@ -1,0 +1,52 @@
+import os
+
+root_dir = os.listdir(os.path.join(os.getcwd(), 'network/'))[0]
+print('scripts dir')
+print(os.path.join(os.getcwd(), 'scripts', 'prepare_edge_table_for_clusterONE.py'))
+
+rule all:
+    input:
+         os.path.join(os.getcwd(), root_dir, 'results', 'general_info.txt')
+
+
+rule prepare_edge_table:
+    output:
+          os.path.join(os.getcwd(), root_dir, 'data', 'ready_edge_table.csv')
+
+    script:
+          os.path.join(os.getcwd(), 'scripts', 'prepare_edge_table_for_clusterONE.py')
+
+
+rule run_clusterONE:
+    output:
+          os.path.join(os.getcwd(), root_dir, 'results', 'clusterONE_results.csv')
+
+    input:
+          rules.prepare_edge_table.output
+
+    script:
+          os.path.join(os.getcwd() , 'scripts', 'clusterONE.py')
+    #shell:
+         # "java -jar tools/cluster_one-1.0.jar {root_dir}/data/ready_edge_table.csv --min-density auto --input-format edge_list --output-format csv --max-overlap 0.8 --merge-method single --penalty 2 --min-size 10 --similarity match >' + '/' + root_dir + "/results/clusterONE_results.csv""
+
+
+rule sort_clusterONE_results:
+    output:
+          os.path.join(os.getcwd(), root_dir, 'results', 'sorted_clusterONE_results.csv')
+
+    input:
+          rules.run_clusterONE.output
+
+    script:
+          os.path.join(os.getcwd(), 'scripts', 'sort_clusterONE_results.py')
+
+
+rule general_info:
+    output:
+          os.path.join(os.getcwd(), root_dir, 'results', 'general_info.txt')
+
+    input:
+         rules.sort_clusterONE_results.output
+
+    script:
+          os.path.join(os.getcwd(), 'scripts', 'general_info.py')

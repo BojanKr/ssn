@@ -1,0 +1,37 @@
+import os
+
+root_dir = os.listdir(os.path.join(os.getcwd(), 'network/'))[0]
+
+rule all:
+    input:
+         os.path.join(os.getcwd(), root_dir, 'results', 'function_prediction.txt')
+
+
+rule create_pivot_network:
+    output:
+          os.path.join(os.getcwd(), root_dir, 'results', 'pivot.xml')
+
+    script:
+          os.path.join(os.getcwd(), 'scripts', 'create_pivot_network.py')
+
+
+rule run_mast:
+    input:
+          rules.create_pivot_network.output
+
+    output:
+          os.path.join(os.getcwd(), root_dir, 'data', 'used_clusters.txt')
+
+    script:
+          os.path.join(os.getcwd(), 'scripts', 'run_mast.py')
+
+
+rule function_prediction:
+    input:
+         rules.run_mast.output
+
+    output:
+          os.path.join(os.getcwd(), root_dir, 'results', 'function_prediction.txt')
+
+    script:
+          os.path.join(os.getcwd(), 'scripts', 'function_prediction.py')
