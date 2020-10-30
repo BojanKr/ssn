@@ -1,8 +1,6 @@
 import os
 
 root_dir = os.listdir(os.path.join(os.getcwd(), 'network/'))[0]
-print('scripts dir')
-print(os.path.join(os.getcwd(), 'scripts', 'prepare_edge_table_for_clusterONE.py'))
 
 rule all:
     input:
@@ -26,8 +24,6 @@ rule run_clusterONE:
 
     script:
           os.path.join(os.getcwd() , 'scripts', 'clusterONE.py')
-    #shell:
-         # "java -jar tools/cluster_one-1.0.jar {root_dir}/data/ready_edge_table.csv --min-density auto --input-format edge_list --output-format csv --max-overlap 0.8 --merge-method single --penalty 2 --min-size 10 --similarity match >' + '/' + root_dir + "/results/clusterONE_results.csv""
 
 
 rule sort_clusterONE_results:
