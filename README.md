@@ -43,6 +43,7 @@ python main.py
 ```
 
 5. The workflow will now go through a series of steps which are split into four snakefiles.
+
 After the first snakefile (run_clusterONE.rules) executes, the SSN will be clustered into isofunctional clusters. Clusterring information and general information about the SSN will be written to a file (see under Output)
 
 After the second snakefile executes (cluster_info.rules), the defined isofunctional clusters will be separated from the full SSN as subclusters and information for each defined cluster will be written to a file (see under Output)
