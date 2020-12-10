@@ -44,15 +44,15 @@ python main.py
 
 5. The workflow will now go through a series of steps which are split into four snakefiles.
 
-After the first snakefile (run_clusterONE.rules) executes, the SSN will be clustered into isofunctional clusters. Clusterring information and general information about the SSN will be written to a file (see under Output)
+After the first snakefile (run_clusterONE.rules) executes, the SSN will be clustered into isofunctional clusters using the ClusterONE algorithm (1). Clusterring information and general information about the SSN will be written to a file (see under Output)
 
 After the second snakefile executes (cluster_info.rules), the defined isofunctional clusters will be separated from the full SSN as subclusters and information for each defined cluster will be written to a file (see under Output)
 
-The third snakefile (run_meme.rules) will run the MEME tool and search for sequence motifs in each cluster defined in previous two rules.
+The third snakefile (run_meme.rules) will run the MEME tool (2) from the MEME-Suite (3) and search for sequence motifs in each cluster defined in previous two rules.
 During this step the user will be prompted to enter the number of motifs that should be found and their minimum and maximum width. 
 The output of this step are folders that contain sequence logos and text files containing motifs calculated by MEME (see more under Output).
 
-The fourth snakefile (run_mast.rules) will run the MAST tool and based on its results it will make predictions about the possible functions of 
+The fourth snakefile (run_mast.rules) will run the MAST tool (4) from the MEME-SUite (3) and based on its results it will make predictions about the possible functions of 
 some uncharacterized parts of the SSN. Outputs of this step are text files with MAST search hits and a predictions files which lists all of the 
 clusters whose function can be predicted based on the MAST search (see more under Output). The user will be prompted in this step to enter number of a 
 defined cluster whose fingerprint should be search against the dataset used to make the SSN. The user will also have to provide the number of motifs 
@@ -105,3 +105,8 @@ In order for you to test that you have a proper setup of the workflow,
 you can find an example of a network already in the '/network' folder called:
 "47305_case_study_full_ssn.xgmml"
 
+## Refereneces:
+1. Nepusz T, Yu H, Paccanaro A. Detecting overlapping protein complexes in protein-protein interaction networks. Nat Methods. 2012 May 18;9(5):471–2. 
+2. Bailey L Timothy EC. Fitting a mixture model by expectation maximization to discover motifs in biopolymers. Proc Int Conf Intell Syst Mol Biol. 1994;2:28–36. 
+3. Bailey TL, Boden M, Buske FA, Frith M, Grant CE, Clementi L, et al. MEME Suite: Tools for motif discovery and searching. Nucleic Acids Res. 2009;37:202–8.
+4. Bailey TL, Gribskov M. Combining evidence using p-values: Application to sequence homology searches. Bioinformatics. 1998;14(1):48–54. 
