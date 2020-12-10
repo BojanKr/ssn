@@ -581,11 +581,24 @@ def write_general_info(file, clust_num, swiss_num, swiss_cluster_numbers, swiss_
         f.write('\n')
 
 
+def get_root_dir():
+
+    for file in os.listdir(os.path.join(os.getcwd(), 'network/')):
+        if not file.endswith('xgmml'):
+            continue
+        else:
+            print(file)
+            dir = os.path.join(os.getcwd(), file+'/')
+            print(dir)
+
+            return dir
+
+
 def main():
 
     print('Extracting general information about the full SSN.\n')
 
-    root_dir = os.listdir(os.path.join(os.getcwd(), 'network/'))[0]
+    root_dir = get_root_dir()
 
     # clusterONE results dataframe
     clusterONE_results = pd.read_csv(os.path.join(os.getcwd(), root_dir, 'results', 'sorted_clusterONE_results.csv'))

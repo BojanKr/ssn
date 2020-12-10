@@ -6,7 +6,19 @@ import warnings
 # Create cyrest client
 cytoscape = cyrest.cyclient()
 
-root_dir = os.listdir(os.path.join(os.getcwd(), 'network/'))[0]
+
+def get_root_dir():
+    for file in os.listdir(os.path.join(os.getcwd(), 'network/')):
+        if not file.endswith('xgmml'):
+            continue
+        else:
+            dir = os.path.join(os.getcwd(), file + '/')
+
+            return dir
+
+
+root_dir = get_root_dir()
+
 
 def count_pfam_interpro(table):
 

@@ -5,7 +5,18 @@ import os
 # Create cyrest client
 cytoscape = cyrest.cyclient()
 
-root_dir = os.listdir(os.path.join(os.getcwd(), 'network/'))[0]
+
+def get_root_dir():
+    for file in os.listdir(os.path.join(os.getcwd(), 'network/')):
+        if not file.endswith('xgmml'):
+            continue
+        else:
+            dir = os.path.join(os.getcwd(), file + '/')
+
+            return dir
+
+
+root_dir = get_root_dir()
 
 
 def get_node_table_columns():
@@ -78,7 +89,6 @@ def write_subnetworks_node(network, column_names, table, name):
 
 
 def main():
-
     # Get network id for root network
     networkSUID_list = cytoscape.network.list()
     root_suid = networkSUID_list['networks'][0]

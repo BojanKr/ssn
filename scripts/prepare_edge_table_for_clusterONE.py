@@ -23,11 +23,24 @@ def get_table():
     return e_table
 
 
+def get_root_dir():
+
+    for file in os.listdir(os.path.join(os.getcwd(), 'network/')):
+        if not file.endswith('xgmml'):
+            continue
+        else:
+            print(file)
+            dir = os.path.join(os.getcwd(), file+'/')
+            print(dir)
+
+            return dir
+
+
 def main():
 
     print('Preparing the edge table from Cytoscape for ClusterONE.\n')
 
-    root_dir = os.listdir(os.path.join(os.getcwd(), 'network/'))[0]
+    root_dir = get_root_dir()
 
     table = get_table()
 
@@ -37,7 +50,8 @@ def main():
     cone_edge_table['%id'] = cone_edge_table['%id'].divide(100)
 
     # Save the prepared table to csv
-    ready_edge_table = cone_edge_table.to_csv(os.path.join(os.getcwd(), root_dir, 'data', 'ready_edge_table.csv'), header=False, index=False, sep=' ')
+    ready_edge_table = cone_edge_table.to_csv(os.path.join(os.getcwd(), root_dir, 'data', 'ready_edge_table.csv'),
+                                              header=False, index=False, sep=' ')
     print(f'The prepared edge table will be written to {root_dir}/data/ready_edge_table.csv\n')
 
 if __name__ == '__main__':

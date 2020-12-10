@@ -2,7 +2,16 @@ import os
 
 print('Runing MEME from MEME-Suite to calculate seqeunce motfs for each of the defiend clusters.')
 
-root_dir = os.listdir(os.path.join(os.getcwd(), 'network/'))[0]
+def get_root_dir():
+    for file in os.listdir(os.path.join(os.getcwd(), 'network/')):
+        if not file.endswith('xgmml'):
+            continue
+        else:
+            dir = os.path.join(os.getcwd(), file + '/')
+
+            return dir
+
+root_dir = get_root_dir()
 
 directory = os.path.join(os.getcwd(), root_dir, 'data', 'sequences/')
 path_to_meme = os.path.join(os.getcwd(), 'tools', 'meme-5.2.0', 'src', 'meme')

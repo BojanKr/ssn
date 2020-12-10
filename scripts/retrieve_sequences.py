@@ -3,7 +3,19 @@ import requests
 import pandas as pd
 import os
 
-root_dir = os.listdir(os.path.join(os.getcwd(), 'network/'))[0]
+
+def get_root_dir():
+    for file in os.listdir(os.path.join(os.getcwd(), 'network/')):
+        if not file.endswith('xgmml'):
+            continue
+        else:
+            dir = os.path.join(os.getcwd(), file + '/')
+
+            return dir
+
+
+root_dir = get_root_dir()
+
 
 directory = os.path.join(os.getcwd(), root_dir, 'data', 'Clusters/')
 output_directory = os.path.join(os.getcwd(), root_dir, 'data', 'sequences/')

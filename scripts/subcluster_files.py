@@ -2,11 +2,24 @@ import pandas as pd
 import os
 
 
+def get_root_dir():
+
+    for file in os.listdir(os.path.join(os.getcwd(), 'network/')):
+        if not file.endswith('xgmml'):
+            continue
+        else:
+            print(file)
+            dir = os.path.join(os.getcwd(), file+'/')
+            print(dir)
+
+            return dir
+
+
 def main():
 
-    print('Saving accession numbers of proteins that belong to defined clusters.\n')
+    root_dir = get_root_dir()
 
-    root_dir = os.listdir(os.path.join(os.getcwd(), 'network/'))[0]
+    print('Saving accession numbers of proteins that belong to defined clusters.\n')
 
     # Read a list of defined clusters (clusters with sequences from SwissProt)
     with open(os.path.join(os.getcwd(), root_dir, 'data', 'swiss_cluster_numbers.txt'), 'r') as f:
